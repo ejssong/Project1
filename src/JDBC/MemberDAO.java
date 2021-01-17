@@ -20,8 +20,7 @@ public class MemberDAO {
 			String user = "hr";
 			String password = "hr";
 			conn = DriverManager.getConnection(url, user, password);
-			//createTable();
-			
+			// createTable();
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -75,7 +74,7 @@ public class MemberDAO {
 	public int Register(String id, String first_name, String last_name, String tel, String password, String car) {
 		int result = 0;
 		try {
-			
+
 			conn = getConn();
 
 			String sql = "insert into customers values(?,?,?,?,?,?)";
@@ -108,8 +107,8 @@ public class MemberDAO {
 		return result;
 
 	}
-	// 아이디 중복 확인
 
+	// 아이디 중복 확인
 	public boolean ExistID(String id) {
 
 		try {
@@ -165,6 +164,42 @@ public class MemberDAO {
 
 		return false;
 
+	}
+	//회원정보수정 
+	
+	public boolean update(MemberDTO dto) {
+		boolean execute = false;
+		
+		try {
+			conn = getConn();
+			String sql = "UPDATE CUSTOMERS SET PASSWORD = ?, PHONE = ? , CAR = ? WHERE ID = ?";
+			psmt = conn.prepareStatement(sql);
+			psmt.setString(1,dto.getPassword());
+			psmt.setString(2,dto.getTel());
+			psmt.setString(3, dto.getCar());
+			psmt.setString(4, dto.getId());
+			
+			int result = psmt.executeUpdate();
+			
+			if(result > 0) {
+				execute = true;
+				System.out.println("업데이트 완료 !");
+			}else {
+				execute = false;
+				System.out.println("업데이트 실패! ");
+			}
+			
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return execute;
+		
+		
+		
 	}
 
 }

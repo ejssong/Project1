@@ -9,14 +9,14 @@ public class MemberDTO {
 	private String car;
 	
 
-	public MemberDTO(String id, String first_name, String last_name, String tel, String password, String car) {
-		this.id = id;
-		this.first_name = first_name;
-		this.last_name = last_name;
-		this.tel = tel;
-		this.password = password;
-		this.car = car;
-	}
+//	public MemberDTO(String id, String first_name, String last_name, String tel, String password, String car) {
+//		this.id = id;
+//		this.first_name = first_name;
+//		this.last_name = last_name;
+//		this.tel = tel;
+//		this.password = password;
+//		this.car = car;
+//	}
 
 	public String getCar() {
 		return car;

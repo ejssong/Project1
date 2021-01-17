@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import JDBC.MemberDTO;
+
 import java.awt.Font;
 import java.awt.Image;
 
@@ -14,16 +17,20 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import JDBC.MemberDAO;
+import JDBC.MemberDTO;
 
 public class mypage {
 
 	private JFrame frame;
 	private JTextField txt_id_update;
 	private JTextField txt_pw_update;
-	private JButton btnNewButton;
+	private JButton btn_update;
 	private JButton btn_logout;
 	private JButton btn_remove;
 	private JButton btn_back;
+	private JTextField txt_phone_update;
+	private JTextField txt_car_update;
 
 	/**
 	 * Launch the application.
@@ -48,10 +55,19 @@ public class mypage {
 		initialize();
 	}
 
+	// 회원정보 세팅
+	
+
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		MemberDTO dto = new MemberDTO();
+		String id = dto.getId();
+		String password = dto.getPassword();
+		String phone = dto.getTel();
+		String car = dto.getCar();
+		
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.getContentPane().setLayout(null);
@@ -68,7 +84,9 @@ public class mypage {
 		frame.getContentPane().add(lbl_id_update);
 		
 		txt_id_update = new JTextField();
-		txt_id_update.setText("");
+		//ID는 업데이트 할 수 없음.
+		txt_id_update.setEditable(false);
+		txt_id_update.setText(id);
 		txt_id_update.setBounds(248, 181, 169, 24);
 		frame.getContentPane().add(txt_id_update);
 		txt_id_update.setColumns(10);
@@ -79,16 +97,22 @@ public class mypage {
 		frame.getContentPane().add(lbl_pw_update);
 		
 		txt_pw_update = new JTextField();
-		txt_pw_update.setText("");
+		txt_pw_update.setText(password);
 		txt_pw_update.setColumns(10);
 		txt_pw_update.setBounds(248, 236, 169, 24);
 		frame.getContentPane().add(txt_pw_update);
 		
-		btnNewButton = new JButton("\uBCC0\uACBD");
-		btnNewButton.setFont(new Font("굴림", Font.PLAIN, 12));
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(442, 236, 64, 24);
-		frame.getContentPane().add(btnNewButton);
+		btn_update = new JButton("\uBCC0\uACBD");
+		btn_update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+				
+			}
+		});
+		btn_update.setFont(new Font("굴림", Font.PLAIN, 12));
+		btn_update.setBackground(Color.WHITE);
+		btn_update.setBounds(261, 444, 64, 24);
+		frame.getContentPane().add(btn_update);
 		
 		btn_logout = new JButton("\uB85C\uADF8\uC544\uC6C3");
 		btn_logout.setFont(new Font("굴림체", Font.PLAIN, 12));
@@ -125,6 +149,28 @@ public class mypage {
 		btn_back.setBackground(Color.WHITE);
 		btn_back.setBounds(22, 39, 50, 40);
 		frame.getContentPane().add(btn_back);
+		
+		JLabel lbl_phone = new JLabel("PHONE :");
+		lbl_phone.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbl_phone.setBounds(132, 290, 104, 25);
+		frame.getContentPane().add(lbl_phone);
+		
+		txt_phone_update = new JTextField();
+		txt_phone_update.setText(phone);
+		txt_phone_update.setColumns(10);
+		txt_phone_update.setBounds(248, 292, 169, 24);
+		frame.getContentPane().add(txt_phone_update);
+		
+		JLabel lbl_car = new JLabel("CAR : ");
+		lbl_car.setHorizontalAlignment(SwingConstants.RIGHT);
+		lbl_car.setBounds(132, 345, 104, 25);
+		frame.getContentPane().add(lbl_car);
+		
+		txt_car_update = new JTextField();
+		txt_car_update.setText(car);
+		txt_car_update.setColumns(10);
+		txt_car_update.setBounds(248, 347, 169, 24);
+		frame.getContentPane().add(txt_car_update);
 		frame.setBounds(100, 100, 600, 720);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

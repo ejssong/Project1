@@ -14,12 +14,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 import JDBC.MemberDAO;
+import JDBC.MemberDTO;
 
 public class login {
 
 	private JFrame frame;
 	private JTextField txt_id;
 	private JTextField txt_password;
+	private MemberDTO dto = null;
+	
 
 	/**
 	 * Launch the application.
@@ -69,11 +72,11 @@ public class login {
 		frame.getContentPane().add(lblNewLabel);
 
 		txt_id = new JTextField();
-		txt_id.setForeground(UIManager.getColor("Button.shadow"));
-		txt_id.setText("\uC544\uC774\uB514 \uC785\uB825");
-		txt_id.setBounds(225, 185, 135, 21);
-		frame.getContentPane().add(txt_id);
-		txt_id.setColumns(10);
+		getTxt_id().setForeground(UIManager.getColor("Button.shadow"));
+		getTxt_id().setText("\uC544\uC774\uB514 \uC785\uB825");
+		getTxt_id().setBounds(225, 185, 135, 21);
+		frame.getContentPane().add(getTxt_id());
+		getTxt_id().setColumns(10);
 
 		JLabel lblPassword = new JLabel("PASSWORD");
 		lblPassword.setFont(new Font("Arial", Font.BOLD, 14));
@@ -99,6 +102,8 @@ public class login {
 				frame.dispose();
 				register register1 = new register();
 				register1.main(null);
+				
+
 			}
 		});
 		btn_register.setFont(new Font("Arial", Font.ITALIC, 12));
@@ -111,19 +116,25 @@ public class login {
 			public void actionPerformed(ActionEvent e) {
 				String id = txt_id.getText();
 				String pw = txt_password.getText();
-
-				if (dao.login(id, pw)) {
-					System.out.println("로그인 성공");
-					frame.dispose();
-					main main1 = new main();
-					main1.main(null); // 나중에 Main 페이지로 옮기기 
-				}else {
-					System.out.println("로그인 실패");
-				}
+				
+				dto = dao.login(new MemberDTO(id, pw));
+				txt_id.setText(id);
+				txt_password.setText(pw);
+				
+				main main1 = new main(dto);
+				frame.dispose();
+		
 			}
 		});
+		
 		btnNewButton.setBackground(Color.WHITE);
 		btnNewButton.setBounds(247, 307, 91, 23);
 		frame.getContentPane().add(btnNewButton);
 	}
+
+	public JTextField getTxt_id() {
+		return txt_id;
+	}
+	
+
 }

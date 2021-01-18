@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MemberDAO {
-	Connection conn = null;
-	PreparedStatement psmt = null;
-	ResultSet rs = null;
+	private Connection conn = null;
+	private PreparedStatement psmt = null;
+	private ResultSet rs = null;
 
 	// DB 처리 & 동적 연결
-	public Connection getConn() {
+	private void getConn() {
 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -28,11 +28,9 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 
-		return conn;
-
 	}
 
-	public void close() {
+	private void close() {
 		try {
 			if (rs != null)
 				rs.close();
@@ -70,12 +68,13 @@ public class MemberDAO {
 //		}
 //
 //	}
+
 	// 회원가입
 	public int Register(String id, String first_name, String last_name, String tel, String password, String car) {
 		int result = 0;
 		try {
 
-			conn = getConn();
+			getConn();
 
 			String sql = "insert into customers values(?,?,?,?,?,?)";
 			psmt = conn.prepareStatement(sql);
@@ -112,7 +111,7 @@ public class MemberDAO {
 	public boolean ExistID(String id) {
 
 		try {
-			conn = getConn();
+			getConn();
 			String sql = "select count(*) cnt from customers where id = ?";
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, id);
@@ -139,20 +138,28 @@ public class MemberDAO {
 	}
 
 	// 로그인
-	public boolean login(String id, String password) {
+	public MemberDTO login(MemberDTO dto) {
+		MemberDTO resultDTO = null;
 		try {
-			conn = getConn();
+			getConn();
 			String sql = "select * from customers where id = ? and password = ?";
 
 			psmt = conn.prepareStatement(sql);
 
-			psmt.setString(1, id);
-			psmt.setString(2, password);
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPassword());
 
 			rs = psmt.executeQuery();
 
 			if (rs.next()) {
-				return true;
+				String id2 = rs.getString("id");
+				String pw2 = rs.getString("password");
+				String phone = rs.getString("phone");
+				String first = rs.getString("first_name");
+				String last = rs.getString("last_name");
+				String car = rs.getString("car");
+				resultDTO = new MemberDTO(id2, first, last, phone, pw2, car);
+
 			}
 
 		} catch (SQLException e) {
@@ -162,44 +169,67 @@ public class MemberDAO {
 			close();
 		}
 
-		return false;
+		return resultDTO;
 
 	}
-	//회원정보수정 
-	
-	public boolean update(MemberDTO dto) {
-		boolean execute = false;
-		
+	// 회원정보수정
+
+	public int update(MemberDTO dto) {
+		int result = 0;
 		try {
-			conn = getConn();
+			getConn();
 			String sql = "UPDATE CUSTOMERS SET PASSWORD = ?, PHONE = ? , CAR = ? WHERE ID = ?";
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1,dto.getPassword());
-			psmt.setString(2,dto.getTel());
+			psmt.setString(1, dto.getPassword());
+			psmt.setString(2, dto.getTel());
 			psmt.setString(3, dto.getCar());
 			psmt.setString(4, dto.getId());
-			
-			int result = psmt.executeUpdate();
-			
-			if(result > 0) {
-				execute = true;
+
+			result = psmt.executeUpdate();
+
+			if (result > 0) {
+
 				System.out.println("업데이트 완료 !");
-			}else {
-				execute = false;
+			} else {
+
 				System.out.println("업데이트 실패! ");
 			}
-			
-			
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			close();
 		}
-		return execute;
-		
-		
-		
+		return result;
+
+	}
+
+	// 회원 탈퇴
+	public int delete(MemberDTO dto) {
+
+		int result = 0;
+
+		try {
+			getConn();
+			String sql = "DELETE FROM CUSTOMERS WHERE ID = ? AND PASSWORD =?";
+			psmt.setString(1, dto.getId());
+			psmt.setString(2, dto.getPassword());
+
+			result = psmt.executeUpdate();
+
+			if (result > 0) {
+				System.out.println("테이블 삭제 완료!");
+			} else {
+				System.out.println("오류발생");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+
+		return 0;
+
 	}
 
 }

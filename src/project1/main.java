@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import JDBC.MemberDTO;
+
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JSlider;
@@ -27,33 +30,28 @@ public class main {
 
 	private JFrame frame;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					main window = new main();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					main window = new main();
+//					window.frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
-	/**
-	 * Create the application.
-	 */
-	public main() {
-		initialize();
+	public main(MemberDTO dto) {
+		initialize(dto);
+		frame.setVisible(true);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(MemberDTO dto) {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
 		frame.setBounds(100, 100, 600, 720);
@@ -64,14 +62,12 @@ public class main {
 		lbl_logo.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_logo.setBounds(12, 10, 59, 45);
 		frame.getContentPane().add(lbl_logo);
-	
-		
+
 		ImageIcon image2 = new ImageIcon("img/search.jpg");
 		Image img2 = image2.getImage();
 		Image scale2 = img2.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
 		ImageIcon result2 = new ImageIcon(scale2);
-		
-		
+
 		JButton btn_add_data = new JButton(result2);
 		btn_add_data.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -81,12 +77,12 @@ public class main {
 		btn_add_data.setBorderPainted(false);
 		btn_add_data.setBounds(255, 195, 75, 75);
 		frame.getContentPane().add(btn_add_data);
-		
+
 		ImageIcon image3 = new ImageIcon("img/info.png");
 		Image img3 = image3.getImage();
 		Image scale3 = img3.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
 		ImageIcon result3 = new ImageIcon(scale3);
-		
+
 		JButton btn_info = new JButton(result3);
 		btn_info.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -96,8 +92,8 @@ public class main {
 		btn_info.setBorderPainted(false);
 		btn_info.setBounds(420, 195, 75, 75);
 		frame.getContentPane().add(btn_info);
-		
-		//이미지 삽입
+
+		// 이미지 삽입
 		ImageIcon image1 = new ImageIcon("img/previousdata.jpg");
 		Image img1 = image1.getImage();
 		Image scale1 = img1.getScaledInstance(75, 75, Image.SCALE_SMOOTH);
@@ -138,21 +134,20 @@ public class main {
 		txtpnInfo.setText("info ");
 		txtpnInfo.setBounds(42, 343, 320, 170);
 		frame.getContentPane().add(txtpnInfo);
-		
-		// 여기에 데이터베이스 first_name 가져오기
-		JLabel lbl_title = new JLabel("{}님 얀녕하세요 ");
+
+		// MemberDTO에서 저장된 first_name 가져오기
+		JLabel lbl_title = new JLabel(dto.getFirst_name() + ", 얀녕하세요 ");
 		lbl_title.setFont(new Font("굴림", Font.PLAIN, 15));
 		lbl_title.setHorizontalAlignment(SwingConstants.CENTER);
 		lbl_title.setBounds(12, 114, 574, 26);
 		frame.getContentPane().add(lbl_title);
-		
+
 //		ImageIcon exitimg = new ImageIcon(
 //				"C:\\Users\\smhrd\\Desktop\\workspace\\project1\\src\\image\\logout.png");
 //		Image exitimg1 = exitimg.getImage();
 //		Image exitscaleimg = exitimg1.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 //		ImageIcon result5 = new ImageIcon(exitscaleimg);
-		
-		
+
 		JButton btn_exit = new JButton("LOG OUT");
 		btn_exit.setFont(new Font("Arial", Font.BOLD, 12));
 		btn_exit.setBackground(Color.WHITE);
@@ -163,22 +158,23 @@ public class main {
 		});
 		btn_exit.setBounds(471, 25, 103, 30);
 		frame.getContentPane().add(btn_exit);
-		
+
 //		ImageIcon mypageimg = new ImageIcon("img/mypage.png");
 //		Image mypageimg1 = mypageimg.getImage();
 //		Image mypage_scaleimg = mypageimg1.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 //		ImageIcon result4 = new ImageIcon(mypage_scaleimg);
-		
+
 		JButton btn_mypage = new JButton("MY PAGE");
 		btn_mypage.setFont(new Font("Arial", Font.BOLD, 12));
 		btn_mypage.setBorderPainted(false);
 		btn_mypage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//마이 페이지로 이동
-				frame.dispose();
-				mypage mypage1 = new mypage();
-				mypage1.main(null);
-				
+				// 마이 페이지로 이동
+				if (dto != null) {
+					frame.dispose();
+					mypage mypage1 = new mypage(dto);
+				}
+
 			}
 		});
 		btn_mypage.setBackground(Color.WHITE);

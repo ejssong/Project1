@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.JSlider;
 import JDBC.MemberDAO;
 import JDBC.MemberDTO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class login {
 
@@ -23,10 +25,6 @@ public class login {
 	private JTextField txt_password;
 	private MemberDTO dto = null;
 	
-
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -40,16 +38,11 @@ public class login {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
+
 	public login() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 
 		MemberDAO dao = new MemberDAO();
@@ -72,6 +65,11 @@ public class login {
 		frame.getContentPane().add(lblNewLabel);
 
 		txt_id = new JTextField();
+		txt_id.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				txt_id.setText("");
+			}
+		});
 		getTxt_id().setForeground(UIManager.getColor("Button.shadow"));
 		getTxt_id().setText("\uC544\uC774\uB514 \uC785\uB825");
 		getTxt_id().setBounds(225, 185, 135, 21);
@@ -84,6 +82,11 @@ public class login {
 		frame.getContentPane().add(lblPassword);
 
 		txt_password = new JTextField();
+		txt_password.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				txt_password.setText("");
+			}
+		});
 		txt_password.setForeground(UIManager.getColor("Button.shadow"));
 		txt_password.setText("\uBE44\uBC00\uBC88\uD638 \uC785\uB825");
 		txt_password.setColumns(10);

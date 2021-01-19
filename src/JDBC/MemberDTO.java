@@ -23,7 +23,9 @@ public class MemberDTO {
 		this.password = password;
 	}
 
-
+	public MemberDTO(String id) {
+		this.id = id;
+	}
 	public String getCar() {
 		return car;
 	}

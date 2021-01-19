@@ -6,11 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JTextField;
+
 public class MemberDAO {
 	private Connection conn = null;
 	private PreparedStatement psmt = null;
 	private ResultSet rs = null;
-
+	
 	// DB 처리 & 동적 연결
 	private void getConn() {
 
@@ -174,16 +176,17 @@ public class MemberDAO {
 	}
 	// 회원정보수정
 
-	public int update(MemberDTO dto) {
+	public int update(String id, String pw, String phone, String car) {
 		int result = 0;
 		try {
 			getConn();
+
 			String sql = "UPDATE CUSTOMERS SET PASSWORD = ?, PHONE = ? , CAR = ? WHERE ID = ?";
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, dto.getPassword());
-			psmt.setString(2, dto.getTel());
-			psmt.setString(3, dto.getCar());
-			psmt.setString(4, dto.getId());
+			psmt.setString(1, pw);
+			psmt.setString(2, phone);
+			psmt.setString(3, car);
+			psmt.setString(4, id);
 
 			result = psmt.executeUpdate();
 
@@ -205,15 +208,13 @@ public class MemberDAO {
 	}
 
 	// 회원 탈퇴
-	public int delete(MemberDTO dto) {
-
+	public int delete(String id) {
 		int result = 0;
 
 		try {
 			getConn();
-			String sql = "DELETE FROM CUSTOMERS WHERE ID = ? AND PASSWORD =?";
-			psmt.setString(1, dto.getId());
-			psmt.setString(2, dto.getPassword());
+			String sql = "DELETE FROM CUSTOMERS WHERE ID = ? ";
+			psmt.setString(1, id);
 
 			result = psmt.executeUpdate();
 
@@ -228,8 +229,14 @@ public class MemberDAO {
 			close();
 		}
 
-		return 0;
+		return result;
 
 	}
+
+
+
+
+
+
 
 }

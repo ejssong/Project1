@@ -25,7 +25,7 @@ public class mypage extends login {
 	private JTextField txt_pw_update;
 	private JButton btn_update;
 	private JButton btn_logout;
-	private JButton btn_remove;
+	private JButton btn_delete;
 	private JButton btn_back;
 	private JTextField txt_phone_update;
 	private JTextField txt_car_update;
@@ -51,6 +51,7 @@ public class mypage extends login {
 	}
 
 	private void initialize(MemberDTO dto) {
+		MemberDAO dao = new MemberDAO();
 
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.WHITE);
@@ -69,8 +70,8 @@ public class mypage extends login {
 
 		txt_id_update = new JTextField();
 		// ID는 업데이트 할 수 없음.
-		txt_id_update.setEditable(false);
-		txt_id_update.setVisible(true);
+//		txt_id_update.setEditable(false);
+//		txt_id_update.setVisible(true);
 		txt_id_update.setText(dto.getId());
 		txt_id_update.setBounds(248, 181, 169, 24);
 		frame.getContentPane().add(txt_id_update);
@@ -91,9 +92,10 @@ public class mypage extends login {
 		btn_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 정보 DB 수정
-				MemberDAO dao = new MemberDAO();
-				int result = dao.update(dto);
 
+				int result = dao.update(txt_id_update.getText(), txt_pw_update.getText(), txt_phone_update.getText(),
+						txt_car_update.getText());
+				;
 				if (result > 0) {
 					// result = True
 					JOptionPane.showMessageDialog(null, "업데이트 완료");
@@ -109,20 +111,38 @@ public class mypage extends login {
 		frame.getContentPane().add(btn_update);
 
 		btn_logout = new JButton("\uB85C\uADF8\uC544\uC6C3");
+		btn_logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+			}
+		});
 		btn_logout.setFont(new Font("굴림체", Font.PLAIN, 12));
 		btn_logout.setBackground(Color.WHITE);
 		btn_logout.setBounds(373, 627, 87, 23);
 		frame.getContentPane().add(btn_logout);
 
-		btn_remove = new JButton("\uD68C\uC6D0\uD0C8\uD1F4");
-		btn_remove.setFont(new Font("굴림체", Font.PLAIN, 12));
-		btn_remove.addActionListener(new ActionListener() {
+		btn_delete = new JButton("\uD68C\uC6D0\uD0C8\uD1F4");
+		btn_delete.setFont(new Font("굴림체", Font.PLAIN, 12));
+		btn_delete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+
+
+
+				int result1 = dao.delete(txt_id_update.getText());
+
+				if (result1 > 0) {
+					JOptionPane.showMessageDialog(null, "삭제완료");
+				} else {
+					JOptionPane.showMessageDialog(null, "삭제실패");
+				}
+				
+				login login1 = new login();
+				login1.main(null);
 			}
 		});
-		btn_remove.setBackground(Color.WHITE);
-		btn_remove.setBounds(472, 627, 87, 23);
-		frame.getContentPane().add(btn_remove);
+		btn_delete.setBackground(Color.WHITE);
+		btn_delete.setBounds(472, 627, 87, 23);
+		frame.getContentPane().add(btn_delete);
 
 		ImageIcon deleteimg = new ImageIcon("img/back.png");
 		Image backimg = deleteimg.getImage();

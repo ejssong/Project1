@@ -16,6 +16,8 @@
  4. Progress Bar 을 통한 사용자의 시각화 극대화 및 7일간의 점수 비교 분석 가능 
  
  > 점수 획득 과정 공식화 
+ <img width="510" alt="Screen Shot 2022-05-01 at 5 31 41 PM" src="https://user-images.githubusercontent.com/59044882/166138320-ea2d783b-d0b4-49cf-93b0-02525fe5c0aa.png">
+
 
 ## Tools
 - ORACLE DATABASE

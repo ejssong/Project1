@@ -18,6 +18,8 @@
  > 점수 획득 과정 공식화 
  <img width="510" alt="Screen Shot 2022-05-01 at 5 31 41 PM" src="https://user-images.githubusercontent.com/59044882/166138320-ea2d783b-d0b4-49cf-93b0-02525fe5c0aa.png">
 
+## Preview
+https://user-images.githubusercontent.com/59044882/166138365-8557a0a9-b469-4935-a4ea-9ab08e4e84e7.mp4
 
 ## Tools
 - ORACLE DATABASE
